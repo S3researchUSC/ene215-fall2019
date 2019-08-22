@@ -1,6 +1,6 @@
 ---
 title: "Energy Transitions"
-output: html_notebook
+output: rmarkdown::github_document
 ---
 
 Using Python, create a plot of primary energy consumption (Quadrillion) versus time from 1635 -2017.

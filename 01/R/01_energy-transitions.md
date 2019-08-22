@@ -5,22 +5,6 @@ output:
     keep_md: true
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
-
-```r
-# plot(cars)
-```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
-
 # Energy Transitions R Tutorial
 
 Using R, create a plot of primary energy consumption (Quadrillion) versus time from 1635 -2017.
@@ -183,93 +167,120 @@ library(ggplot2)
 ### Rough plotting
 
 ```r
-lplot = ggplot(data = df_fuels, aes(x = year, y = value, color = fuel)) + geom_line()
-lplot
+plot_cons = ggplot(data = df_fuels, aes(x = year, y = value, color = fuel)) + geom_line()
+plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ### Change axes limits and range
 
 Let's change the title, labels, and axes of the plot.
 
 ```r
-lplot = lplot + 
+plot_cons = plot_cons + 
   scale_x_continuous(limits = c(1635,2018), breaks = seq(1600,2000,50), expand = c(0,0)) +
   scale_y_continuous(limits = c(0,45), breaks = seq(0,45,5)) 
-lplot
+plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ### Specify line colors
 
 ```r
-lplot = lplot + scale_color_manual(values = c("Petroleum" = "orange",
+plot_cons = plot_cons + scale_color_manual(values = c("Petroleum" = "orange",
                                               "Natural Gas" = "red",
                                               "Coal" = "black",
                                               "Nuclear" = "seagreen",
                                               "Hydropower" = "steelblue",
                                               "Wood/biomass" = "brown",
                                               "Other Renewables" = "skyblue"))
-lplot
+plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ### Add title, subtitle, and caption
 Be sure to change Prof. Sanders' name to your own and to change the date as well.
 
 ```r
-lplot = lplot + labs(title = "U.S. Primary Energy Consumption by Source (1635 – 2018)", 
+plot_cons = plot_cons + labs(title = "U.S. Primary Energy Consumption by Source (1635 – 2018)", 
                      subtitle = "Quadrillion British Thermal Units",
                      caption = "Plot created by Kelly Sanders on August 21, 2019",
                      x = NULL,
                      y = NULL,
                      color = NULL) 
-lplot
+plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ### Making the plot prettier
 
 I'm not a huge fan of how the plot looks right now, so let's pretty it up a bit, shall we? First up, let's make it a more minimal plot and change the font to Arial Narrow:
 
 ```r
-  lplot = lplot + theme_minimal(base_family = "Arial Narrow")
-  lplot
+  plot_cons = plot_cons + theme_minimal(base_family = "Arial Narrow")
+  plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 Better but can still be improved. Let's change the font sizes and styles a bit.
 
 ```r
-  lplot = lplot + theme(plot.title = element_text(size = 16, face = "bold"),
+  plot_cons = plot_cons + theme(plot.title = element_text(size = 16, face = "bold"),
                         plot.subtitle = element_text(size = 12, face = "plain"),
                         plot.caption = element_text(size = 10, face = "italic"),
                         axis.title = element_text(size = 14, face = "bold"),
                         axis.text = element_text(size = 12, face = "plain"),
                         legend.text = element_text(size = 12, face = "plain"))
-  lplot
+  plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 Okay, now let's get rid of some of the grid lines so that there's only a y-axis line.
 
 ```r
-  lplot = lplot + theme(panel.grid = element_line(color = "#cccccc", size = 0.2),
+  plot_cons = plot_cons + theme(panel.grid = element_line(color = "#cccccc", size = 0.2),
                         panel.grid.major = element_line(color = "#cccccc", size = 0.2),
                         panel.grid.major.x = element_blank(),
                         panel.grid.minor = element_blank(),
                         plot.margin = margin(10, 10, 10, 10),
                         panel.spacing = grid::unit(2, "lines")) 
-  lplot
+  plot_cons
 ```
 
-![](01_energy-transitions_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](01_energy-transitions_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
+### Saving the line plot as an image file
+
+To see where your current working directory is, use the *getwd()* function (usually, if you're running this notebook in RStudio, it should already be the location where the notebook is saved on your computer:
+
+```r
+getwd()
+```
+
+```
+## [1] "/Users/MEAS/GitHub/ene215-fall2019/01/R"
+```
+
+If that's not where you want your image files to be saved, you can use the *setwd()* function to change it. 
+
+To save the plot (in the sub-folder named "figs"):
+
+```r
+  ggsave(plot_cons, 
+         path = "figs",
+         filename = "Figure_Fuel-Consumption-by-Source_KTSanders.png", 
+         width = 8.2, 
+         height = 4.4, 
+         dpi = 600)
+```
+Be sure to change the filename to your own.
+
 
 ### Removing the legend completely
 
@@ -282,7 +293,7 @@ library(grid)
 
 
 ```r
-  lplot_cut = lplot + 
+  plot_cons_cut = plot_cons + 
     geom_dl(aes(label = fuel), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
     guides(color = FALSE) +     
     theme(plot.margin = margin(10, 110, 10, 10))
@@ -291,41 +302,15 @@ library(grid)
 The following chunk cuts the plot and adds labels on top
 
 ```r
-  lplot_cut = ggplotGrob(lplot_cut)
-  lplot_cut$layout$clip[lplot_cut$layout$name == "panel"] = "off"
-  # grid.draw(lplot_cut)
+  plot_cons_cut = ggplotGrob(plot_cons_cut)
+  plot_cons_cut$layout$clip[plot_cons_cut$layout$name == "panel"] = "off"
+  # grid.draw(plot_cons_cut)
 ```
 
-
-### Saving plots
-
-To see where your current working directory is, use the *getwd()* function (usually, if you're running this notebook in RStudio, it should already be the location where the notebook is saved on your computer:
+We can save the new plot: 
 
 ```r
-getwd()
-```
-
-```
-## [1] "/Users/MEAS/GitHub/ene215-fall2019/01"
-```
-
-If that's not where you want your image files to be saved, you can use the *setwd()* function to change it. 
-
-To save the plot (in the sub-folder named "figs"):
-
-```r
-  ggsave(lplot, 
-         path = "figs",
-         filename = "Figure_Fuel-Consumption-by-Source_KTSanders.png", 
-         width = 8.2, 
-         height = 4.4, 
-         dpi = 600)
-```
-Be sure to change the filename to your own.
-
-
-```r
-  ggsave(lplot_cut, 
+  ggsave(plot_cons_cut, 
          path = "figs",
          filename = "Figure_Fuel-Consumption-by-Source_KTSanders_V2.png", 
          width = 8.2, 
@@ -406,50 +391,22 @@ tail(agg_annual, 10)
 ## 10: 2018 100.89260
 ```
 
-But we can see from the table below (as well as the plots we created) that coal consumption has been on the decline, while natural gas and non-hydro consumption have been increasing.
-
-```r
-tail(df_data, 10)
-```
-
-```
-##     year     Coal Natural Gas Petroleum Total Fossil  Nuclear Hydropower
-##  1: 2009 19.69121    23.41594  34.86021     77.96736 8.355220   2.668824
-##  2: 2010 20.83397    24.57475  35.41577     80.82449 8.434433   2.538541
-##  3: 2011 19.65778    24.95454  34.72671     79.33904 8.268698   3.102852
-##  4: 2012 17.37823    26.08858  33.93858     77.40539 8.061822   2.628702
-##  5: 2013 18.03863    26.80513  34.49957     79.34333 8.244433   2.562382
-##  6: 2014 17.99763    27.38283  34.76349     80.14396 8.337559   2.466577
-##  7: 2015 15.54887    28.19110  35.47761     79.21757 8.336886   2.321177
-##  8: 2016 14.22590    28.40035  35.81663     78.44289 8.426753   2.472442
-##  9: 2017 13.83746    28.03423  36.17359     78.04528 8.418968   2.766969
-## 10: 2018 13.24134    30.96481  36.94527     81.15142 8.441226   2.687652
-##     Wood/biomass    Solar     Wind Total Renewable Energy Other Renewables
-##  1:     3.940009 0.078178 0.721129               7.408140         0.799307
-##  2:     4.505882 0.091282 0.923427               8.059132         1.014709
-##  3:     4.608932 0.112429 1.167636               8.991849         1.280065
-##  4:     4.507805 0.158961 1.340059               8.635527         1.499020
-##  5:     4.848354 0.224524 1.601359               9.236619         1.825883
-##  6:     4.994208 0.337412 1.727542               9.525739         2.064954
-##  7:     4.983358 0.426621 1.777306               9.508462         2.203927
-##  8:     5.020163 0.570008 2.095595              10.158208         2.665603
-##  9:     5.084265 0.776888 2.342890              10.971012         3.119778
-## 10:     5.127819 0.951353 2.533131              11.299955         3.484484
-```
+But we can see from the plots we created that coal consumption has been on the decline, while natural gas and non-hydro consumption have been increasing.
 
 ### 10-year changes
 
-To create a calculation of rate of change every 10 years, let's create a sequence of years that we want to include. In this case, we're going to move backwards every 10 years from the most recent year to the earliest year:
+To create a calculation of rate of change every 10 years, let's create a sequence of years that we want to include. In this case, we're going to create a 10 year sequence from 1635 to 2015.
 
 ```r
-year_seq = seq(max(df_fuels[, year]), min(df_fuels[, year]), -10)
+# year_seq = seq(max(df_fuels[, year]), min(df_fuels[, year]), -10)
+year_seq = seq(min(df_fuels[, year]), max(df_fuels[, year]), 10)
 year_seq
 ```
 
 ```
-##  [1] 2018 2008 1998 1988 1978 1968 1958 1948 1938 1928 1918 1908 1898 1888
-## [15] 1878 1868 1858 1848 1838 1828 1818 1808 1798 1788 1778 1768 1758 1748
-## [29] 1738 1728 1718 1708 1698 1688 1678 1668 1658 1648 1638
+##  [1] 1635 1645 1655 1665 1675 1685 1695 1705 1715 1725 1735 1745 1755 1765
+## [15] 1775 1785 1795 1805 1815 1825 1835 1845 1855 1865 1875 1885 1895 1905
+## [29] 1915 1925 1935 1945 1955 1965 1975 1985 1995 2005 2015
 ```
 
 Create a new data table to include only those years:
@@ -460,13 +417,13 @@ head(agg_10yr)
 ```
 
 ```
-##    year fuel     value
-## 1: 1958 Coal  9.533287
-## 2: 1968 Coal 12.330677
-## 3: 1978 Coal 13.765575
-## 4: 1988 Coal 18.846312
-## 5: 1998 Coal 21.655744
-## 6: 2008 Coal 22.387437
+##    year fuel value
+## 1: 1635 Coal     0
+## 2: 1645 Coal     0
+## 3: 1655 Coal     0
+## 4: 1665 Coal     0
+## 5: 1675 Coal     0
+## 6: 1685 Coal     0
 ```
 
 Let's make a new column telling us what the span of years are. Intuitively, we know the years are 10 years apart. 
@@ -478,13 +435,13 @@ head(agg_10yr)
 ```
 
 ```
-##    year fuel     value prev_year        span
-## 1: 1958 Coal  9.533287      1948 1948 - 1958
-## 2: 1968 Coal 12.330677      1958 1958 - 1968
-## 3: 1978 Coal 13.765575      1968 1968 - 1978
-## 4: 1988 Coal 18.846312      1978 1978 - 1988
-## 5: 1998 Coal 21.655744      1988 1988 - 1998
-## 6: 2008 Coal 22.387437      1998 1998 - 2008
+##    year fuel value prev_year        span
+## 1: 1635 Coal     0      1625 1625 - 1635
+## 2: 1645 Coal     0      1635 1635 - 1645
+## 3: 1655 Coal     0      1645 1645 - 1655
+## 4: 1665 Coal     0      1655 1655 - 1665
+## 5: 1675 Coal     0      1665 1665 - 1675
+## 6: 1685 Coal     0      1675 1675 - 1685
 ```
 
 Calculate the difference and percent difference between each row and the row before it, grouped by fuel type.
@@ -496,13 +453,13 @@ head(agg_10yr)
 ```
 
 ```
-##    year fuel     value prev_year        span     diff  perc_diff
-## 1: 1958 Coal  9.533287      1948 1948 - 1958       NA         NA
-## 2: 1968 Coal 12.330677      1958 1958 - 1968 2.797390 0.29343394
-## 3: 1978 Coal 13.765575      1968 1968 - 1978 1.434898 0.11636814
-## 4: 1988 Coal 18.846312      1978 1978 - 1988 5.080737 0.36909007
-## 5: 1998 Coal 21.655744      1988 1988 - 1998 2.809432 0.14907065
-## 6: 2008 Coal 22.387437      1998 1998 - 2008 0.731693 0.03378748
+##    year fuel value prev_year        span diff perc_diff
+## 1: 1635 Coal     0      1625 1625 - 1635   NA        NA
+## 2: 1645 Coal     0      1635 1635 - 1645    0       NaN
+## 3: 1655 Coal     0      1645 1645 - 1655    0       NaN
+## 4: 1665 Coal     0      1655 1655 - 1665    0       NaN
+## 5: 1675 Coal     0      1665 1665 - 1675    0       NaN
+## 6: 1685 Coal     0      1675 1675 - 1685    0       NaN
 ```
 
 Some of the columns are unncessary, so let's just clean up the data table a bit:
@@ -513,13 +470,94 @@ head(agg_10yr)
 ```
 
 ```
-##    fuel        span     value     diff  perc_diff
-## 1: Coal 1948 - 1958  9.533287       NA         NA
-## 2: Coal 1958 - 1968 12.330677 2.797390 0.29343394
-## 3: Coal 1968 - 1978 13.765575 1.434898 0.11636814
-## 4: Coal 1978 - 1988 18.846312 5.080737 0.36909007
-## 5: Coal 1988 - 1998 21.655744 2.809432 0.14907065
-## 6: Coal 1998 - 2008 22.387437 0.731693 0.03378748
+##    fuel        span value diff perc_diff
+## 1: Coal 1625 - 1635     0   NA        NA
+## 2: Coal 1635 - 1645     0    0       NaN
+## 3: Coal 1645 - 1655     0    0       NaN
+## 4: Coal 1655 - 1665     0    0       NaN
+## 5: Coal 1665 - 1675     0    0       NaN
+## 6: Coal 1675 - 1685     0    0       NaN
 ```
+
+What was the greatest (maximum) change in absolute value of quadrillion BTUs consumed over a ten year span? 
+
+```r
+agg_10yr[!is.na(diff), .SD[which.max(diff)]]
+```
+
+```
+##         fuel        span    value     diff perc_diff
+## 1: Petroleum 1965 - 1975 32.73232 9.486643 0.4081035
+```
+Between 1965 and 1975, petroleum consumption increased by almost 9.5 quadrillion BTUs (amounting to a 41% change).
+
+Okay, but what if we want to know what was the greatest absolute change in fuel consumption *for each fuel type*? 
+
+```r
+agg_10yr[!is.na(diff), .SD[which.max(diff)], by = 'fuel']
+```
+
+```
+##                fuel        span     value     diff perc_diff
+## 1:             Coal 1935 - 1945 15.972000 5.338000 0.5019748
+## 2:      Natural Gas 1955 - 1965 15.768667 6.770732 0.7524762
+## 3:        Petroleum 1965 - 1975 32.732323 9.486643 0.4081035
+## 4:          Nuclear 1985 - 1995  7.075436 2.999873 0.7360635
+## 5:       Hydropower 1965 - 1975  3.154607 1.095530 0.5320491
+## 6:     Wood/biomass 2005 - 2015  4.983358 1.869428 0.6003436
+## 7: Other Renewables 2005 - 2015  2.203927 1.967946 8.3394256
+```
+We can see that coal experienced the greatest absolute growth in the years 1935 - 1945. Non-hydro renewables experienced the greatest growth in consumption from 2005 to 2015.
+
+On the other hand, we can also when the most drastic decreases in fuel consumption was by singling out rows with a negative difference, then finding the minimum.
+
+```r
+agg_10yr[!is.na(diff) & diff < 0, .SD[which.min(diff)], by = fuel]
+```
+
+```
+##            fuel        span     value      diff  perc_diff
+## 1:         Coal 2005 - 2015 15.548870 -7.247673 -0.3179286
+## 2:  Natural Gas 1975 - 1985 17.703482 -2.244401 -0.1125132
+## 3:    Petroleum 2005 - 2015 35.477609 -4.805166 -0.1192859
+## 4:   Hydropower 1995 - 2005  2.702942 -0.502365 -0.1567291
+## 5: Wood/biomass 1895 - 1905  1.843000 -0.463000 -0.2007806
+```
+Coal experienced the biggest drop in absolute fuel consumption within the past decade, with an over 7 quadrillion decrease (~32% decrease). 
+
+We can analyze percentage differences (difference relative to the original year) as well. For starters, let's look at when each fuel type experienced the greatest percent increase:
+
+```r
+agg_10yr[is.finite(perc_diff), .SD[which.max(perc_diff)], by = 'fuel']
+```
+
+```
+##                fuel        span    value     diff  perc_diff
+## 1:             Coal 1865 - 1875 1.440000 0.808000   1.278481
+## 2:      Natural Gas 1895 - 1905 0.372000 0.225000   1.530612
+## 3:        Petroleum 1885 - 1895 0.168000 0.128000   3.200000
+## 4:          Nuclear 1965 - 1975 1.899798 1.856634  43.013483
+## 5:       Hydropower 1895 - 1905 0.386000 0.296000   3.288889
+## 6:     Wood/biomass 1655 - 1665 0.005000 0.003000   1.500000
+## 7: Other Renewables 1985 - 1995 0.100863 0.100692 588.842105
+```
+Now, our results have changed a bit. Because we're using a percent difference, the data is skewed towards earlier years where there wasn't much fuel consumed (within each fuel type) anyways. For example, non-hydro renewables experienced a 588% increase in fuel consumption between 1985 - 1995 That can seem like a lot, but when you look at how in 1995, only 0.100863 quadrillion BTUs of non-hydro renewable was consumed, it's still a very small amount. 
+
+What if we want to see the most drastic percent decrease?
+
+```r
+agg_10yr[is.finite(perc_diff) & perc_diff < 0, .SD[which.min(perc_diff)], by = fuel]
+```
+
+```
+##            fuel        span     value      diff  perc_diff
+## 1:         Coal 2005 - 2015 15.548870 -7.247673 -0.3179286
+## 2:  Natural Gas 1975 - 1985 17.703482 -2.244401 -0.1125132
+## 3:    Petroleum 2005 - 2015 35.477609 -4.805166 -0.1192859
+## 4:   Hydropower 1995 - 2005  2.702942 -0.502365 -0.1567291
+## 5: Wood/biomass 1895 - 1905  1.843000 -0.463000 -0.2007806
+```
+
+## Plotting percent changes
 
 

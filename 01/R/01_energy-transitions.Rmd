@@ -1,26 +1,9 @@
 ---
-title: "Energy Transitions R Notebook"
+title: "Energy Transitions R Tutorial"
 output: 
   html_document:
     keep_md: true
 ---
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
-```{r}
-# plot(cars)
-```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
-
-# Energy Transitions R Tutorial
 
 Using R, create a plot of primary energy consumption (Quadrillion) versus time from 1635 -2017.
 
@@ -108,98 +91,75 @@ library(ggplot2)
 ```
 ### Rough plotting
 ```{r}
-lplot = ggplot(data = df_fuels, aes(x = year, y = value, color = fuel)) + geom_line()
-lplot
+plot_cons = ggplot(data = df_fuels, aes(x = year, y = value, color = fuel)) + geom_line()
+plot_cons
 ```
 
 ### Change axes limits and range
 
 Let's change the title, labels, and axes of the plot.
 ```{r}
-lplot = lplot + 
+plot_cons = plot_cons + 
   scale_x_continuous(limits = c(1635,2018), breaks = seq(1600,2000,50), expand = c(0,0)) +
   scale_y_continuous(limits = c(0,45), breaks = seq(0,45,5)) 
-lplot
+plot_cons
 ```
 
 ### Specify line colors
 ```{r}
-lplot = lplot + scale_color_manual(values = c("Petroleum" = "orange",
+plot_cons = plot_cons + scale_color_manual(values = c("Petroleum" = "orange",
                                               "Natural Gas" = "red",
                                               "Coal" = "black",
                                               "Nuclear" = "seagreen",
                                               "Hydropower" = "steelblue",
                                               "Wood/biomass" = "brown",
                                               "Other Renewables" = "skyblue"))
-lplot
+plot_cons
 ```
 
 ### Add title, subtitle, and caption
 Be sure to change Prof. Sanders' name to your own and to change the date as well.
 ```{r}
-lplot = lplot + labs(title = "U.S. Primary Energy Consumption by Source (1635 – 2018)", 
+plot_cons = plot_cons + labs(title = "U.S. Primary Energy Consumption by Source (1635 – 2018)", 
                      subtitle = "Quadrillion British Thermal Units",
                      caption = "Plot created by Kelly Sanders on August 21, 2019",
                      x = NULL,
                      y = NULL,
                      color = NULL) 
-lplot
+plot_cons
 ```
 
 ### Making the plot prettier
 
 I'm not a huge fan of how the plot looks right now, so let's pretty it up a bit, shall we? First up, let's make it a more minimal plot and change the font to Arial Narrow:
 ```{r}
-  lplot = lplot + theme_minimal(base_family = "Arial Narrow")
-  lplot
+  plot_cons = plot_cons + theme_minimal(base_family = "Arial Narrow")
+  plot_cons
 ```
 
 Better but can still be improved. Let's change the font sizes and styles a bit.
 ```{r}
-  lplot = lplot + theme(plot.title = element_text(size = 16, face = "bold"),
+  plot_cons = plot_cons + theme(plot.title = element_text(size = 16, face = "bold"),
                         plot.subtitle = element_text(size = 12, face = "plain"),
                         plot.caption = element_text(size = 10, face = "italic"),
                         axis.title = element_text(size = 14, face = "bold"),
                         axis.text = element_text(size = 12, face = "plain"),
                         legend.text = element_text(size = 12, face = "plain"))
-  lplot
+  plot_cons
 ```
 
 Okay, now let's get rid of some of the grid lines so that there's only a y-axis line.
 ```{r}
-  lplot = lplot + theme(panel.grid = element_line(color = "#cccccc", size = 0.2),
+  plot_cons = plot_cons + theme(panel.grid = element_line(color = "#cccccc", size = 0.2),
                         panel.grid.major = element_line(color = "#cccccc", size = 0.2),
                         panel.grid.major.x = element_blank(),
                         panel.grid.minor = element_blank(),
                         plot.margin = margin(10, 10, 10, 10),
                         panel.spacing = grid::unit(2, "lines")) 
-  lplot
+  plot_cons
 ```
 
-### Removing the legend completely
-
-This next step isn't very necessary, but let's say you don't like having a legend there, and instead you want the fuel source labels to be directly next to the line plot. To do so, first load the following the libraries:
-```{r}
-library(directlabels)
-library(grid)
-```
-
-```{r}
-  lplot_cut = lplot + 
-    geom_dl(aes(label = fuel), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
-    guides(color = FALSE) +     
-    theme(plot.margin = margin(10, 110, 10, 10))
-```
-
-The following chunk cuts the plot and adds labels on top
-```{r}
-  lplot_cut = ggplotGrob(lplot_cut)
-  lplot_cut$layout$clip[lplot_cut$layout$name == "panel"] = "off"
-  # grid.draw(lplot_cut)
-```
-
-
-### Saving plots
+### Saving the line plot as an image file
 
 To see where your current working directory is, use the *getwd()* function (usually, if you're running this notebook in RStudio, it should already be the location where the notebook is saved on your computer:
 ```{r}
@@ -210,7 +170,7 @@ If that's not where you want your image files to be saved, you can use the *setw
 
 To save the plot (in the sub-folder named "figs"):
 ```{r}
-  ggsave(lplot, 
+  ggsave(plot_cons, 
          path = "figs",
          filename = "Figure_Fuel-Consumption-by-Source_KTSanders.png", 
          width = 8.2, 
@@ -219,8 +179,32 @@ To save the plot (in the sub-folder named "figs"):
 ```
 Be sure to change the filename to your own.
 
+
+### Removing the legend completely
+
+This next step isn't very necessary, but let's say you don't like having a legend there, and instead you want the fuel source labels to be directly next to the line plot. To do so, first load the following the libraries:
 ```{r}
-  ggsave(lplot_cut, 
+library(directlabels)
+library(grid)
+```
+
+```{r}
+  plot_cons_cut = plot_cons + 
+    geom_dl(aes(label = fuel), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
+    guides(color = FALSE) +     
+    theme(plot.margin = margin(10, 110, 10, 10))
+```
+
+The following chunk cuts the plot and adds labels on top
+```{r}
+  plot_cons_cut = ggplotGrob(plot_cons_cut)
+  plot_cons_cut$layout$clip[plot_cons_cut$layout$name == "panel"] = "off"
+  # grid.draw(plot_cons_cut)
+```
+
+We can save the new plot: 
+```{r}
+  ggsave(plot_cons_cut, 
          path = "figs",
          filename = "Figure_Fuel-Consumption-by-Source_KTSanders_V2.png", 
          width = 8.2, 
@@ -294,7 +278,7 @@ head(agg_10yr)
 
 Some of the columns are unncessary, so let's just clean up the data table a bit:
 ```{r}
-agg_10yr = agg_10yr[, c("fuel", "span", "value", "diff", "perc_diff")]
+agg_10yr = agg_10yr[, c("fuel", "span", "year", "value", "diff", "perc_diff")]
 head(agg_10yr)
 ```
 
@@ -325,5 +309,111 @@ Now, our results have changed a bit. Because we're using a percent difference, t
 What if we want to see the most drastic percent decrease?
 ```{r}
 agg_10yr[is.finite(perc_diff) & perc_diff < 0, .SD[which.min(perc_diff)], by = fuel]
+```
+
+## Plotting percent changes
+
+### Line plot
+
+```{r}
+line_diff = ggplot(data = agg_10yr, aes(x = year, y = diff, color = fuel, group = fuel)) + 
+  geom_line() +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL) +
+  scale_color_manual(values = c("Petroleum" = "orange",
+                               "Natural Gas" = "red",
+                               "Coal" = "black",
+                               "Nuclear" = "seagreen",
+                               "Hydropower" = "steelblue",
+                               "Wood/biomass" = "brown",
+                               "Other Renewables" = "skyblue")) +
+  guides(color = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+line_diff
+```
+
+
+```{r}
+line_diff_facet = ggplot(data = agg_10yr, aes(x = year, y = diff, color = fuel, group = fuel)) + 
+  geom_line() +
+  facet_wrap(~fuel, ncol = 2) +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL) +
+  scale_color_manual(values = c("Petroleum" = "orange",
+                                "Natural Gas" = "red",
+                                "Coal" = "black",
+                                "Nuclear" = "seagreen",
+                                "Hydropower" = "steelblue",
+                                "Wood/biomass" = "brown",
+                                "Other Renewables" = "skyblue")) +
+  guides(color = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+line_diff_facet
+```
+
+### Bar plots
+
+```{r}
+bar_diff_facet = ggplot(data = agg_10yr, aes(x = year, y = diff, fill = fuel, group = fuel)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~fuel, ncol = 2) +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL,
+       color = NULL) +
+  scale_fill_manual(values = c("Petroleum" = "orange",
+                                "Natural Gas" = "red",
+                                "Coal" = "black",
+                                "Nuclear" = "seagreen",
+                                "Hydropower" = "steelblue",
+                                "Wood/biomass" = "brown",
+                                "Other Renewables" = "skyblue")) +
+  guides(fill = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+bar_diff_facet
 ```
 

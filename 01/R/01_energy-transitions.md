@@ -1,11 +1,9 @@
 ---
-title: "Energy Transitions R Notebook"
+title: "Energy Transitions R Tutorial"
 output: 
   html_document:
     keep_md: true
 ---
-
-# Energy Transitions R Tutorial
 
 Using R, create a plot of primary energy consumption (Quadrillion) versus time from 1635 -2017.
 
@@ -465,18 +463,18 @@ head(agg_10yr)
 Some of the columns are unncessary, so let's just clean up the data table a bit:
 
 ```r
-agg_10yr = agg_10yr[, c("fuel", "span", "value", "diff", "perc_diff")]
+agg_10yr = agg_10yr[, c("fuel", "span", "year", "value", "diff", "perc_diff")]
 head(agg_10yr)
 ```
 
 ```
-##    fuel        span value diff perc_diff
-## 1: Coal 1625 - 1635     0   NA        NA
-## 2: Coal 1635 - 1645     0    0       NaN
-## 3: Coal 1645 - 1655     0    0       NaN
-## 4: Coal 1655 - 1665     0    0       NaN
-## 5: Coal 1665 - 1675     0    0       NaN
-## 6: Coal 1675 - 1685     0    0       NaN
+##    fuel        span year value diff perc_diff
+## 1: Coal 1625 - 1635 1635     0   NA        NA
+## 2: Coal 1635 - 1645 1645     0    0       NaN
+## 3: Coal 1645 - 1655 1655     0    0       NaN
+## 4: Coal 1655 - 1665 1665     0    0       NaN
+## 5: Coal 1665 - 1675 1675     0    0       NaN
+## 6: Coal 1675 - 1685 1685     0    0       NaN
 ```
 
 What was the greatest (maximum) change in absolute value of quadrillion BTUs consumed over a ten year span? 
@@ -486,8 +484,8 @@ agg_10yr[!is.na(diff), .SD[which.max(diff)]]
 ```
 
 ```
-##         fuel        span    value     diff perc_diff
-## 1: Petroleum 1965 - 1975 32.73232 9.486643 0.4081035
+##         fuel        span year    value     diff perc_diff
+## 1: Petroleum 1965 - 1975 1975 32.73232 9.486643 0.4081035
 ```
 Between 1965 and 1975, petroleum consumption increased by almost 9.5 quadrillion BTUs (amounting to a 41% change).
 
@@ -498,14 +496,14 @@ agg_10yr[!is.na(diff), .SD[which.max(diff)], by = 'fuel']
 ```
 
 ```
-##                fuel        span     value     diff perc_diff
-## 1:             Coal 1935 - 1945 15.972000 5.338000 0.5019748
-## 2:      Natural Gas 1955 - 1965 15.768667 6.770732 0.7524762
-## 3:        Petroleum 1965 - 1975 32.732323 9.486643 0.4081035
-## 4:          Nuclear 1985 - 1995  7.075436 2.999873 0.7360635
-## 5:       Hydropower 1965 - 1975  3.154607 1.095530 0.5320491
-## 6:     Wood/biomass 2005 - 2015  4.983358 1.869428 0.6003436
-## 7: Other Renewables 2005 - 2015  2.203927 1.967946 8.3394256
+##                fuel        span year     value     diff perc_diff
+## 1:             Coal 1935 - 1945 1945 15.972000 5.338000 0.5019748
+## 2:      Natural Gas 1955 - 1965 1965 15.768667 6.770732 0.7524762
+## 3:        Petroleum 1965 - 1975 1975 32.732323 9.486643 0.4081035
+## 4:          Nuclear 1985 - 1995 1995  7.075436 2.999873 0.7360635
+## 5:       Hydropower 1965 - 1975 1975  3.154607 1.095530 0.5320491
+## 6:     Wood/biomass 2005 - 2015 2015  4.983358 1.869428 0.6003436
+## 7: Other Renewables 2005 - 2015 2015  2.203927 1.967946 8.3394256
 ```
 We can see that coal experienced the greatest absolute growth in the years 1935 - 1945. Non-hydro renewables experienced the greatest growth in consumption from 2005 to 2015.
 
@@ -516,12 +514,12 @@ agg_10yr[!is.na(diff) & diff < 0, .SD[which.min(diff)], by = fuel]
 ```
 
 ```
-##            fuel        span     value      diff  perc_diff
-## 1:         Coal 2005 - 2015 15.548870 -7.247673 -0.3179286
-## 2:  Natural Gas 1975 - 1985 17.703482 -2.244401 -0.1125132
-## 3:    Petroleum 2005 - 2015 35.477609 -4.805166 -0.1192859
-## 4:   Hydropower 1995 - 2005  2.702942 -0.502365 -0.1567291
-## 5: Wood/biomass 1895 - 1905  1.843000 -0.463000 -0.2007806
+##            fuel        span year     value      diff  perc_diff
+## 1:         Coal 2005 - 2015 2015 15.548870 -7.247673 -0.3179286
+## 2:  Natural Gas 1975 - 1985 1985 17.703482 -2.244401 -0.1125132
+## 3:    Petroleum 2005 - 2015 2015 35.477609 -4.805166 -0.1192859
+## 4:   Hydropower 1995 - 2005 2005  2.702942 -0.502365 -0.1567291
+## 5: Wood/biomass 1895 - 1905 1905  1.843000 -0.463000 -0.2007806
 ```
 Coal experienced the biggest drop in absolute fuel consumption within the past decade, with an over 7 quadrillion decrease (~32% decrease). 
 
@@ -532,14 +530,14 @@ agg_10yr[is.finite(perc_diff), .SD[which.max(perc_diff)], by = 'fuel']
 ```
 
 ```
-##                fuel        span    value     diff  perc_diff
-## 1:             Coal 1865 - 1875 1.440000 0.808000   1.278481
-## 2:      Natural Gas 1895 - 1905 0.372000 0.225000   1.530612
-## 3:        Petroleum 1885 - 1895 0.168000 0.128000   3.200000
-## 4:          Nuclear 1965 - 1975 1.899798 1.856634  43.013483
-## 5:       Hydropower 1895 - 1905 0.386000 0.296000   3.288889
-## 6:     Wood/biomass 1655 - 1665 0.005000 0.003000   1.500000
-## 7: Other Renewables 1985 - 1995 0.100863 0.100692 588.842105
+##                fuel        span year    value     diff  perc_diff
+## 1:             Coal 1865 - 1875 1875 1.440000 0.808000   1.278481
+## 2:      Natural Gas 1895 - 1905 1905 0.372000 0.225000   1.530612
+## 3:        Petroleum 1885 - 1895 1895 0.168000 0.128000   3.200000
+## 4:          Nuclear 1965 - 1975 1975 1.899798 1.856634  43.013483
+## 5:       Hydropower 1895 - 1905 1905 0.386000 0.296000   3.288889
+## 6:     Wood/biomass 1655 - 1665 1665 0.005000 0.003000   1.500000
+## 7: Other Renewables 1985 - 1995 1995 0.100863 0.100692 588.842105
 ```
 Now, our results have changed a bit. Because we're using a percent difference, the data is skewed towards earlier years where there wasn't much fuel consumed (within each fuel type) anyways. For example, non-hydro renewables experienced a 588% increase in fuel consumption between 1985 - 1995 That can seem like a lot, but when you look at how in 1995, only 0.100863 quadrillion BTUs of non-hydro renewable was consumed, it's still a very small amount. 
 
@@ -550,14 +548,138 @@ agg_10yr[is.finite(perc_diff) & perc_diff < 0, .SD[which.min(perc_diff)], by = f
 ```
 
 ```
-##            fuel        span     value      diff  perc_diff
-## 1:         Coal 2005 - 2015 15.548870 -7.247673 -0.3179286
-## 2:  Natural Gas 1975 - 1985 17.703482 -2.244401 -0.1125132
-## 3:    Petroleum 2005 - 2015 35.477609 -4.805166 -0.1192859
-## 4:   Hydropower 1995 - 2005  2.702942 -0.502365 -0.1567291
-## 5: Wood/biomass 1895 - 1905  1.843000 -0.463000 -0.2007806
+##            fuel        span year     value      diff  perc_diff
+## 1:         Coal 2005 - 2015 2015 15.548870 -7.247673 -0.3179286
+## 2:  Natural Gas 1975 - 1985 1985 17.703482 -2.244401 -0.1125132
+## 3:    Petroleum 2005 - 2015 2015 35.477609 -4.805166 -0.1192859
+## 4:   Hydropower 1995 - 2005 2005  2.702942 -0.502365 -0.1567291
+## 5: Wood/biomass 1895 - 1905 1905  1.843000 -0.463000 -0.2007806
 ```
 
 ## Plotting percent changes
 
+### Line plot
+
+
+```r
+line_diff = ggplot(data = agg_10yr, aes(x = year, y = diff, color = fuel, group = fuel)) + 
+  geom_line() +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL) +
+  scale_color_manual(values = c("Petroleum" = "orange",
+                               "Natural Gas" = "red",
+                               "Coal" = "black",
+                               "Nuclear" = "seagreen",
+                               "Hydropower" = "steelblue",
+                               "Wood/biomass" = "brown",
+                               "Other Renewables" = "skyblue")) +
+  guides(color = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+line_diff
+```
+
+```
+## Warning: Removed 7 rows containing missing values (geom_path).
+```
+
+![](01_energy-transitions_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+
+
+
+```r
+line_diff_facet = ggplot(data = agg_10yr, aes(x = year, y = diff, color = fuel, group = fuel)) + 
+  geom_line() +
+  facet_wrap(~fuel, ncol = 2) +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL) +
+  scale_color_manual(values = c("Petroleum" = "orange",
+                                "Natural Gas" = "red",
+                                "Coal" = "black",
+                                "Nuclear" = "seagreen",
+                                "Hydropower" = "steelblue",
+                                "Wood/biomass" = "brown",
+                                "Other Renewables" = "skyblue")) +
+  guides(color = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+line_diff_facet
+```
+
+```
+## Warning: Removed 7 rows containing missing values (geom_path).
+```
+
+![](01_energy-transitions_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+
+### Bar plots
+
+
+```r
+bar_diff_facet = ggplot(data = agg_10yr, aes(x = year, y = diff, fill = fuel, group = fuel)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~fuel, ncol = 2) +
+  labs(title = "10-Year Change in U.S. Primary Energy Consumption by Source (1635 – 2015)", 
+       subtitle = "Quadrillion British Thermal Units",
+       caption = "Plot created by Kelly Sanders on August 21, 2019",
+       x = NULL,
+       y = NULL,
+       color = NULL) +
+  scale_fill_manual(values = c("Petroleum" = "orange",
+                                "Natural Gas" = "red",
+                                "Coal" = "black",
+                                "Nuclear" = "seagreen",
+                                "Hydropower" = "steelblue",
+                                "Wood/biomass" = "brown",
+                                "Other Renewables" = "skyblue")) +
+  guides(fill = FALSE) +
+  theme_minimal(base_family = "Arial Narrow") +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 12, face = "plain"),
+        plot.caption = element_text(size = 10, face = "italic"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12, face = "plain"),
+        legend.text = element_text(size = 12, face = "plain"),
+        panel.grid = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major = element_line(color = "#cccccc", size = 0.2),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = margin(10, 10, 10, 10),
+        panel.spacing = grid::unit(2, "lines"))
+bar_diff_facet
+```
+
+```
+## Warning: Removed 7 rows containing missing values (position_stack).
+```
+
+![](01_energy-transitions_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 

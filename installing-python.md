@@ -24,7 +24,7 @@ All of the apps in the image shown above have the "Launch" option because I've a
 
 A common way to code in Python is through the use of notebooks. Notebooks are great because they're more interactive: you can compile chunks of code at a time, you can have vectors/arrays/dataframes printed in the notebook, you can have plots displayed, etc. We'll mostly be using notebooks in this course since it'll be easier for you to learn along.
 
-Open Jupyter Notebook by clicking "Launch" under Jupyter. 
+If the button under the Jupyter icon says "Install", go ahead and click that to install Jupyter Notebook. Once the installation is complete, open Jupyter Notebook by clicking "Launch" under the icon. 
 
 <img src="/images/launch-jupyter-1.png" width="400">
 
@@ -34,6 +34,6 @@ After a moment, a new tab should open on your browser that looks similar to this
 
 ## Installing Python using command line
 
-As you gain more familiarity with Python, you might stop relying on the Anaconda distribution as much. Anaconda comes with the convenience of having everything together in a bundle, but you sometimes have to wait for them to update the whole bundle if you want to just update a single app/library. 
+As you gain more familiarity with Python, you might stop relying on the Anaconda distribution as much. Anaconda comes with the convenience of having everything together in a bundle, but you sometimes have to wait for them to update the whole bundle if you want to just update a single app/library. Installing Python using command line might seem intimidating and confusing at first, but once you get the hang of it, the process gives you more flexibility and control. For the sake of this course, Anaconda should more than suffice.
 
-If you're interested in learning how to install Python using command line, I recommend using the [First Python Notebook](https://www.firstpythonnotebook.org/index.html) interactive tutorial created by Ben Welsh from the L.A. Times. I like this tutorial because it introduces some good practice tips from someone who uses Python a lot for his job as a data reporter. The entire tutorial goes through the process of getting you familiar with Jupyter Notebook, basic data analysis, data cleaning, and plotting. However, you don't have to go through all of that (unless you're interested). Instead, in the context of installing Python, the [Prerequisites](https://www.firstpythonnotebook.org/prerequisites/index.html) goes over how to use command line to install Python, pip, and more. 
+If you're interested in learning how to install Python using command line, I recommend using the [First Python Notebook](https://www.firstpythonnotebook.org/index.html) interactive tutorial created by Ben Welsh from the L.A. Times. The entire tutorial goes through the process of getting you familiar with Jupyter Notebook, basic data analysis, data cleaning, and plotting. However, you don't have to go through all of that (unless you're interested). Instead, in the context of installing Python, the [Prerequisites](https://www.firstpythonnotebook.org/prerequisites/index.html) goes over how to use command line to install Python, pip, and more. 

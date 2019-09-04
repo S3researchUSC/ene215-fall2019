@@ -22,7 +22,13 @@ Most (if not all) of the exercises will be completed using Python. If you don't 
 
 ### Installing R + RStudio
 
-While R will likely be utilized less often in this class, for anyone who might be interested in exploring the world of #rstats, occasionally R verions of assignments will be given as well. To install R on your computer, refer to the [Install R](https://github.com/S3researchUSC/ene215-fall2019/blob/master/installing-r.md) guide.
+While R will likely be utilized less often in this class, for anyone who might be interested in exploring the world of #rstats, occasionally R versions of assignments will be given as well. To install R on your computer, refer to the [Install R](https://github.com/S3researchUSC/ene215-fall2019/blob/master/installing-r.md) guide.
+
+## Accessing/using class materials
+
+The class assignments/tutorials will be provided in the form of Python (or R) notebooks. Once you've downloaded the repository onto your computer, you will be able to access the notebooks locally on your own system. Open up Jupyter Notebook to open the assigment (or RStudio). Follow along in the assignment by re-running the code, or create your own notebook to re-create the assignment. 
+
+You can also view the notebooks themselves in Github. 
 
 ## Support
 

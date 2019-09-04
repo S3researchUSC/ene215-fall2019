@@ -18,11 +18,11 @@ If you're a bit more proficient in using Github, you can feel free to either [fo
 
 ### Installing Python + Jupyter Notebook
 
-coming soon...
+Most (if not all) of the exercises will be completed using Python. If you don't have Python installed on your computer, you can follow our [Install Python](https://github.com/S3researchUSC/ene215-fall2019/blob/master/installing-python.md) guide. 
 
 ### Installing R + RStudio
 
-coming soon...
+While R will likely be utilized less often in this class, for anyone who might be interested in exploring the world of #rstats, occasionally R verions of assignments will be given as well. To install R on your computer, refer to the [Install R](https://github.com/S3researchUSC/ene215-fall2019/blob/master/installing-r.md) guide.
 
 ## Support
 

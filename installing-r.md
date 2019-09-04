@@ -16,11 +16,11 @@ While the R console works just fine, it's not really the most convenient or user
 
 Download RStudio Desktop from the company's website [here](https://www.rstudio.com/products/rstudio/).
 
-<img src="/images/install-r-3.png" width="500">
+<img src="/images/install-r-3.png" width="600">
 
 After your installation is finished, you should be able to open the RStudio app, which looks something like this:
 
-<img src="/images/install-r-4.png" width="500">
+<img src="/images/install-r-4.png" width="600">
 
 You can play around with the editor's appearance if you like to code in a dark environment.
 

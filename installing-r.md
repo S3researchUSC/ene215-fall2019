@@ -4,11 +4,11 @@
 
 You can download and install R [here](https://cran.r-project.org). Follow the instructions depending on what operating system you use.
 
-![CRAN site](/images/install-r-1.png =500x299)
+![CRAN site](/images/install-r-1.png)
 
 Once you've installed R, you should be able to open the default R console/app, which looks something like this:
 
-![R console](/images/install-r-2.png =400x490)
+![R console](/images/install-r-2.png)
 
 While the R console works just fine, it's not really the most convenient or user-friendly. Most people who code in R use RStudio, and I highly recommend you do the same if you want to get into R. (For anyone reading this who's familiar with the Sublime editor, it *is* possible to compile R code in Sublime, but personally I don't think it's as convenient as RStudio.)
 
@@ -26,3 +26,5 @@ You can play around with the editor's appearance if you like to code in a dark e
 
 * Windows: Tools > Options 
 * Mac: RStudio > Preferences
+
+<img src="/images/install-r-1.png" width="400">

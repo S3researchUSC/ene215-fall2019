@@ -26,7 +26,7 @@ A common way to code in Python is through the use of notebooks. Notebooks are gr
 
 Open Jupyter Notebook by clicking "Launch" under Jupyter. 
 
-<img src="/images/launch-jupyter.png" width="600">
+<img src="/images/launch-jupyter-1.png" width="400">
 
 After a moment, a new tab should open on your browser that looks similar to this:
 

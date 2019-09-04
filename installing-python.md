@@ -1,10 +1,10 @@
 # Installing Python
 
-Unlike installing R, you can install Python in a number of different ways, and different people have different opinions/needs/preferences. If you've already installed Python using a different method from what I'm going to go over or if you found another method, that's fine too!
+Unlike installing R, you can install Python in a number of different ways, and different people have different opinions/needs/preferences. If you've already installed Python using a different method, or if there's another approach you want to go with, please feel free to do so!
 
 ## Can I avoid installing Python completely?
 
-Technically, yes! There are websites such as [CoCal](https://cocalc.com/) that lets you edit Jupyter notebooks (and other computing platforms) on the web, without having to install anything. All you have to do is make an account. While this is completely fine, if you're planning on doing on any coding moving forward, I recommend just going ahead and installing Python on your computer.  
+Technically, yes! There are websites such as [CoCalc](https://cocalc.com/) that lets you edit Jupyter notebooks (and other computing platforms) on the web, without having to install anything. All you have to do is make an account. While this is completely fine, if you're planning on doing on any coding moving forward, I recommend just going ahead and installing Python on your computer.  
 
 ## Installing Anaconda
 
